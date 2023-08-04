@@ -31,20 +31,20 @@ class JwtTest {
         Date now = new Date();
         String key = "asdfasdfasdfsdf";
         String token = Jwts.builder()
-                .setClaims(map)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + 3600000))
-                .signWith(SignatureAlgorithm.HS256, key.getBytes())
-                .compact();
+            .setClaims(map)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + 3600000))
+            .signWith(SignatureAlgorithm.HS256, key.getBytes())
+            .compact();
         log.debug(token);
 
         Claims claims = Jwts.parser()
-                .setSigningKey(key.getBytes())
-                .parseClaimsJws(token)
-                .getBody();
+            .setSigningKey(key.getBytes())
+            .parseClaimsJws(token)
+            .getBody();
         String tokenMail = claims.get("email", String.class);
 
-        log.debug("");
+        log.debug("..");
         log.debug(tokenMail);
 
         assertThat(tokenMail).isEqualTo(mail);
@@ -58,17 +58,17 @@ class JwtTest {
         Date now = new Date();
         String key = "asdfasdfasdfsdf";
         String token = Jwts.builder()
-                .setClaims(map)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime()))
-                .signWith(SignatureAlgorithm.HS256, key.getBytes())
-                .compact();
+            .setClaims(map)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime()))
+            .signWith(SignatureAlgorithm.HS256, key.getBytes())
+            .compact();
 
         assertThatCode(() -> Jwts.parser()
-                .setSigningKey(key.getBytes())
-                .parseClaimsJws(token)
-                .getBody())
-                .isInstanceOf(ExpiredJwtException.class);
+            .setSigningKey(key.getBytes())
+            .parseClaimsJws(token)
+            .getBody())
+            .isInstanceOf(ExpiredJwtException.class);
     }
 
     @Test
@@ -79,17 +79,17 @@ class JwtTest {
         Date now = new Date();
         String key = "asdfasdfasdfsdf";
         String token = Jwts.builder()
-                .setClaims(map)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + 3600000))
-                .signWith(SignatureAlgorithm.HS256, key.getBytes())
-                .compact();
+            .setClaims(map)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + 3600000))
+            .signWith(SignatureAlgorithm.HS256, key.getBytes())
+            .compact();
 
         assertThatCode(() -> Jwts.parser()
-                .setSigningKey(("1" + key).getBytes())
-                .parseClaimsJws(token)
-                .getBody())
-                .isInstanceOf(SignatureException.class);
+            .setSigningKey(("1" + key).getBytes())
+            .parseClaimsJws(token)
+            .getBody())
+            .isInstanceOf(SignatureException.class);
     }
 
 }
